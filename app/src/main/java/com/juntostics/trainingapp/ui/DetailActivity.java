@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.juntostics.trainingapp.R;
+import com.juntostics.trainingapp.model.Project;
 
 import java.lang.annotation.Target;
 
@@ -26,24 +27,24 @@ public class DetailActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        String project = getIntent().getStringExtra(EXTRA_PROJECT);
+        Project project = (Project) getIntent().getSerializableExtra(EXTRA_PROJECT);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.container,DetailFragment.createInstance(project)).commit();
         }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static void launch(Activity activity, String project, View heroView) {
+    public static void launch(Activity activity, Project project, View heroView) {
         Intent intent = getLaunchIntent(activity, project);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,heroView,heroView.getTransiticd onName());
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,heroView,heroView.getTransitionName());
             ActivityCompat.startActivity(activity, intent, options.toBundle());
         }else{
             activity.startActivity(intent);
         }
     }
 
-    public static Intent getLaunchIntent(Context context, String project){
+    public static Intent getLaunchIntent(Context context, Project project){
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(EXTRA_PROJECT,project);
         return intent;

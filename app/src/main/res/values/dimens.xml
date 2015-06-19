@@ -5,6 +5,7 @@
     <dimen name="small_margin">8dp</dimen>
     <dimen name="tiny_margin">4dp</dimen>
     <dimen name="image_size">120dp</dimen>
+    <dimen name="image_size_large">130dp</dimen>
     <item type="dimen" name="keyline1">@dimen/standard_margin</item>
     <dimen name="keyline2">72dp</dimen>
     <item type="dimen" name="keyline3">@dimen/standard_margin</item>
@@ -12,5 +13,9 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="text_card_elevation">2dp</dimen>
+    <dimen name="card_corner_radius">6dp</dimen>
+    <dimen name="card_space">16dp</dimen>
 
 </resources>

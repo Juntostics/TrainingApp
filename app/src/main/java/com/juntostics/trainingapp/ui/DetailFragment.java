@@ -2,8 +2,13 @@ package com.juntostics.trainingapp.ui;
 
 
 import android.app.Fragment;
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,9 @@ import com.juntostics.trainingapp.R;
 import com.juntostics.trainingapp.common.Constants;
 import com.juntostics.trainingapp.model.Project;
 
+import java.util.List;
+import android.support.v7.widget.helper.ItemTouchHelper;
+
 /**
  * Created by Juntostics on 6/14/15.
  */
@@ -23,11 +31,12 @@ public class DetailFragment extends Fragment {
 
     private static final String EXTRA_PROJECT = "project";
     private Project mProject;
+    private MainAdapter mAdapter;
 
-    public static DetailFragment createInstance(String projectName) {
+    public static DetailFragment createInstance(Project project) {
         DetailFragment detailFragment = new DetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(EXTRA_PROJECT, projectName);
+        bundle.putSerializable(EXTRA_PROJECT,project);
         detailFragment.setArguments(bundle);
         return detailFragment;
     }
@@ -38,8 +47,14 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail,container,false);
-        String projectName = getArguments().getString(EXTRA_PROJECT);
-        mProject = findProject(projectName);
+
+        //get project
+        mProject = (Project) getArguments().getSerializable(EXTRA_PROJECT);
+
+        //adapter
+        mAdapter = new MainAdapter(getActivity(),mProject.getTasks());
+
+        //colorize
 
         //if there's no project
         if(mProject == null){
@@ -47,29 +62,119 @@ public class DetailFragment extends Fragment {
             return null;
         }
 
+        //init RecyclerView
+        SimpleRecyclerView recyclerView = (SimpleRecyclerView) view.findViewById(R.id.list);
+        recyclerView.setEmptyView(view.findViewById(R.id.empty));
+        //spacing for RecyclerView
+        int spacingForRecyclerView = getResources().getDimensionPixelSize(R.dimen.card_space);
+        recyclerView.addItemDecoration(new SpacesItemDecoration(spacingForRecyclerView));
+        recyclerView.setLayoutManager(new GridLayoutManager(
+                getActivity(), getResources().getInteger(R.integer.list_columns)));
+        recyclerView.setAdapter(mAdapter);
+
+        //attach itemTouchHelper to RecyclerView to enable Swiping to dismiss and Dragging
+        attachItemTouchHelper(recyclerView,mAdapter);
+
         //init widgets
-        TextView nameTextView = (TextView) view.findViewById(R.id.nameTextView);
-        TextView descTextView = (TextView) view.findViewById(R.id.descriptionTextView);
-        TextView distanceTextView = (TextView) view.findViewById(R.id.distanceTextView);
+
+        //init widgets
+        TextView titleView = (TextView) view.findViewById(R.id.title);
+        titleView.setText(mProject.getType());
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
 
-        nameTextView.setText(projectName);
-        distanceTextView.setText(projectName);
-        descTextView.setText(projectName);
-
+        //setting for Glide to bind image
         int imageSize = getResources().getDimensionPixelSize(R.dimen.image_size)
                 * Constants.IMAGE_ANIM_MULTIPLIER;
         Glide.with(getActivity())
-                .load(mProject.imageUri)
+                .load(mProject.getImageResourceId())
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.color.lighter_gray)
-                .override(imageSize, imageSize)
+                .override(imageSize,imageSize)
                 .into(imageView);
         return view;
-
     }
 
-    private Project findProject(String projectName) {
-        return new Project("Test");
+    private void attachItemTouchHelper(RecyclerView recyclerView, final MainAdapter adapter){
+        ItemTouchHelper itemDecor = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                        ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder1) {
+                        final int fromPos = viewHolder.getAdapterPosition();
+                        final int toPos = viewHolder1.getAdapterPosition();
+                        adapter.notifyItemMoved(fromPos, toPos);
+                        return true;                    }
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
+                        final int fromPos = viewHolder.getAdapterPosition();
+                        mProject.getTasks().remove(fromPos);
+                        adapter.notifyItemRemoved(fromPos);
+                    }
+                });
+        itemDecor.attachToRecyclerView(recyclerView);
+    }
+
+
+
+    private class MainAdapter extends RecyclerView.Adapter<ViewHolder> implements ItemClickListener {
+
+        public List<String> mTasks;
+        private Context mContext;
+
+        public MainAdapter(Context mContext, List<String> tasks) {
+            super();
+            this.mTasks = tasks;
+            this.mContext = mContext;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            View view = inflater.inflate(R.layout.list_row_detail, parent, false);
+            return new ViewHolder(view, this);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            String task = mTasks.get(position);
+            holder.mTitleTextView.setText(task);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public int getItemCount() {
+            return mTasks == null ? 0 : mTasks.size();
+        }
+
+        @Override
+        public void onItemClick(View view, int position) {
+            Log.d("onClick","onClick@Detail");
+        }
+    }
+
+    private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        ItemClickListener mItemClickListener;
+        TextView mTitleTextView;
+
+        public ViewHolder(View itemView, ItemClickListener itemClickListener) {
+            super(itemView);
+            this.mItemClickListener = itemClickListener;
+            this.mTitleTextView = (TextView) itemView.findViewById(R.id.text1);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mItemClickListener.onItemClick(v, getPosition());
+        }
+    }
+
+    interface ItemClickListener {
+        void onItemClick(View view, int position);
     }
 }

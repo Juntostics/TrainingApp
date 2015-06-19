@@ -5,7 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="empty_list">No Projects!</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="no_todo">no Todo tasks!</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

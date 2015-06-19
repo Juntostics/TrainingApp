@@ -4,6 +4,7 @@
 
     <fade>
         <targets>
+            <!--<target android:targetClass="android.widget.ScrollView"/>-->
             <target android:targetClass="android.widget.TextView" />
             <target android:targetClass="android.widget.FrameLayout" />
             <target android:targetClass="android.widget.LinearLayout" />

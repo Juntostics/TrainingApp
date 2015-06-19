@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -48,10 +47,13 @@ public class MainFragment extends Fragment {
 
         SimpleRecyclerView recyclerView = (SimpleRecyclerView) view.findViewById(R.id.list);
         recyclerView.setEmptyView(view.findViewById(R.id.empty));
+
+        //spacing for RecyclerView
+        int spacingForRecyclerView = getResources().getDimensionPixelSize(R.dimen.card_space);
+        recyclerView.addItemDecoration(new SpacesItemDecoration(spacingForRecyclerView));
+
         //TODO:change below
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(
-                getActivity(), getResources().getInteger(R.integer.list_columns));
         recyclerView.setLayoutManager(new GridLayoutManager(
                 getActivity(), getResources().getInteger(R.integer.list_columns)
         ));
@@ -64,9 +66,10 @@ public class MainFragment extends Fragment {
 
     private List<Project> createSampleProjects() {
         List<Project> rtnList = new ArrayList<Project>();
-        for(int i=0;i<8;i++){
-            rtnList.add(new Project("Test Project"));
-        }
+        rtnList.add(new Project(Project.ENGLISH,R.drawable.photo1));
+        rtnList.add(new Project(Project.CODING,R.drawable.photo2));
+        rtnList.add(new Project(Project.SOCIAL,R.drawable.photo3));
+        rtnList.add(new Project(Project.WORKOUT,R.drawable.photo4));
         return rtnList;
     }
 
@@ -92,10 +95,10 @@ public class MainFragment extends Fragment {
         public void onBindViewHolder(ViewHolder holder, int position) {
             Project project = mProjects.get(position);
 
-            holder.mTitleTextView.setText(project.getTitle());
+            holder.mTitleTextView.setText(project.getType());
 
             Glide.with(mContext)
-                    .load(project.imageUri)
+                    .load(project.getImageResourceId())
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .placeholder(R.drawable.empty_photo)
                     .override(mImageSize, mImageSize)
@@ -115,7 +118,7 @@ public class MainFragment extends Fragment {
         @Override
         public void onItemClick(View view, int position) {
             View heroView = view.findViewById(R.id.icon);
-            DetailActivity.launch(getActivity(),mAdapter.mProjects.get(position).getTitle(), heroView);
+            DetailActivity.launch(getActivity(),mAdapter.mProjects.get(position), heroView);
         }
     }
 

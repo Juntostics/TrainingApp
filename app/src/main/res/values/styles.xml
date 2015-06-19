@@ -2,9 +2,9 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/theme_default_primary</item>
+        <item name="colorPrimaryDark">@color/theme_default_primary_dark</item>
+        <item name="colorAccent">@color/theme_default_accent</item>
         <item name="colorControlHighlight">?colorAccent</item>
     </style>
 
@@ -18,6 +18,59 @@
     <style name="ActionBar.Detail" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="background">@color/transparent_actionbar_background</item>
         <item name="displayOptions">showHome|homeAsUp</item>
+    </style>
+
+
+    <style name="Card">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">200dp</item>
+
+        <item name="android:elevation">@dimen/card_elevation</item>
+        <item name="android:background">@drawable/card_background</item>
+    </style>
+
+    <style name="TextCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:elevation">@dimen/text_card_elevation</item>
+        <item name="android:background">@drawable/card_background</item>
+    </style>
+
+    <style name="CardPhoto">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+
+        <item name="android:tint">@color/photo_tint</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="CardTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+
+        <item name="android:gravity">bottom|left</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingBottom">8dp</item>
+
+        <item name="android:background">?android:selectableItemBackground</item>
+    </style>
+    <style name="TextCardTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+
+        <item name="android:textColor">#c8000000</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingBottom">8dp</item>
+
+        <item name="android:background">?android:selectableItemBackground</item>
     </style>
 
 </resources>

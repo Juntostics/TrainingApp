@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.juntostics.trainingapp.ui.CardFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Card">
-    <ImageView
-        style="@style/CardPhoto"
-        android:id="@+id/icon"
-        android:src="@drawable/empty_photo"
-        android:transitionName="image"/>
+    style="@style/TextCard">
 
     <TextView
-        style="@style/CardTitle"
+        style="@style/TextCardTitle"
         android:id="@+id/text1" />
-
 
 </com.juntostics.trainingapp.ui.CardFrameLayout>

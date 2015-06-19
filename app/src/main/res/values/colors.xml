@@ -23,5 +23,14 @@
     <color name="colorPrimary">#4e6cef</color>
     <color name="colorPrimaryDark">#2a36b1</color>
     <color name="colorAccent">#ff7043</color>
+    <color name="photo_tint">#7f101010</color>
+
+    <color name="theme_default_primary_light">#ffff598e</color>
+    <color name="theme_default_primary">#e91e63</color>
+    <color name="theme_default_primary_dark">#c2185b</color>
+    <color name="theme_default_accent">#8f673ab7</color>
+    <color name="theme_default_accent_light">#8f9575cd</color>
+    <color name="theme_default_accent_dark">#8f512da8</color>
+
 
 </resources>
