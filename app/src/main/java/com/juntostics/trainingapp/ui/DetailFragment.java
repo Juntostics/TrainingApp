@@ -3,9 +3,15 @@ package com.juntostics.trainingapp.ui;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -55,6 +61,8 @@ public class DetailFragment extends Fragment {
         mAdapter = new MainAdapter(getActivity(),mProject.getTasks());
 
         //colorize
+        Bitmap photo = BitmapFactory.decodeResource(getResources(),mProject.getImageResourceId());
+        colorize(photo,view);
 
         //if there's no project
         if(mProject == null){
@@ -92,6 +100,34 @@ public class DetailFragment extends Fragment {
                 .override(imageSize,imageSize)
                 .into(imageView);
         return view;
+    }
+
+    private void colorize(Bitmap photo,View view) {
+        Palette palette = Palette.generate(photo);
+        applyPalette(palette, view);
+    }
+
+    private void applyPalette(Palette palette, View view) {
+        getActivity().getWindow().setBackgroundDrawable(new ColorDrawable(palette.getDarkMutedColor(Color.WHITE)));
+        FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
+        fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(R.color.theme_default_primary)));
+        TextView titleView = (TextView) view.findViewById(R.id.title);
+        titleView.setTextColor(palette.getVibrantColor(R.color.background_floating_material_dark));
+//
+//        TextView descriptionView = (TextView) findViewById(R.id.description);
+//        descriptionView.setTextColor(palette.getLightVibrantColor().getRgb());
+//
+//        colorRipple(R.id.info, palette.getDarkMutedColor().getRgb(),
+//                palette.getDarkVibrantColor().getRgb());
+//        colorRipple(R.id.star, palette.getMutedColor().getRgb(),
+//                palette.getVibrantColor().getRgb());
+//
+//        View infoView = findViewById(R.id.information_container);
+//        infoView.setBackgroundColor(palette.getLightMutedColor().getRgb());
+//
+//        AnimatedPathView star = (AnimatedPathView) findViewById(R.id.star_container);
+//        star.setFillColor(palette.getVibrantColor().getRgb());
+//        star.setStrokeColor(palette.getLightVibrantColor().getRgb());
     }
 
     private void attachItemTouchHelper(RecyclerView recyclerView, final MainAdapter adapter){

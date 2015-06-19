@@ -16,7 +16,7 @@
   -->
 
 <resources>
-
+    <color name="fab_color_1">#ff5252</color>
     <color name="text_background">#90000000</color>
     <color name="transparent_actionbar_background">#22000000</color>
     <color name="lighter_gray">#ddd</color>

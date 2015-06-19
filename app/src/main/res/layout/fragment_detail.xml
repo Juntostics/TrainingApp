@@ -8,26 +8,33 @@
         android:layout_height="match_parent"
         tools:context="com.juntostics.trainingapp.ui.DetailFragment"
         >
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:transitionName="image"
-
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imageView"
+                android:transitionName="image"
 
-            android:tint="@color/photo_tint"
-            android:scaleType="centerCrop" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:tint="@color/photo_tint"
+                android:scaleType="centerCrop" />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                style="@style/fab"/>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_margin="@dimen/small_margin"
+            android:layout_margin="@dimen/standard_margin"
 
-            android:textSize="24sp"
-            android:fontFamily="sans-serif-light" />
+            android:textSize="28sp"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="bold"/>
 
         <com.juntostics.trainingapp.ui.SimpleRecyclerView
             android:id="@+id/list"

@@ -17,5 +17,6 @@
     <dimen name="text_card_elevation">2dp</dimen>
     <dimen name="card_corner_radius">6dp</dimen>
     <dimen name="card_space">16dp</dimen>
+    <dimen name="fab_compat_margin">0dp</dimen>
 
 </resources>
